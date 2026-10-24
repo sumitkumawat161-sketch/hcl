@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: hospital-assistant-api
+    runtime: python
+    plan: starter            # persistent disks require a paid plan
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - { key: PYTHON_VERSION, value: 3.11.9 }
+      - { key: DATA_DIR, value: /var/data }
+      - { key: GEMINI_API_KEY, sync: false }
+      - { key: GEMINI_MODEL, value: gemini-2.5-flash }
+      - { key: GEMINI_EMBED_MODEL, value: gemini-embedding-001 }
+      - { key: CORS_ORIGINS, sync: false }   # your frontend URL
+    disk:
+      name: hospital-data
+      mountPath: /var/data
+      sizeGB: 1
+  - type: web
+    name: hospital-assistant-ui
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - { key: VITE_API_URL, sync: false }   # backend URL, no trailing slash

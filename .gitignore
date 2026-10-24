@@ -1,0 +1,25 @@
+# Environment variables & secrets
+.env
+*.env
+.env.local
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python virtual environments & cache (if using Python for AI/backend)
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Build outputs & logs
+dist/
+build/
+*.log
+
+# Operating System junk files
+.DS_Store
+Thumbs.db
